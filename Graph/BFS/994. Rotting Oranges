@@ -1,0 +1,74 @@
+# Rotting Oranges — BFS
+
+## 1. Problem Pattern
+**Multi-Source BFS (Breadth-First Search)**
+
+## 2. Cell Values
+- `0` → Empty cell
+- `1` → Fresh orange
+- `2` → Rotten orange
+
+## 3. Core Approach
+1. Traverse the entire grid.
+2. Add all initially rotten oranges to the queue.
+3. Count the total number of fresh oranges.
+4. Process the queue level by level using BFS.
+5. For each level, process only the current queue size.
+6. If a fresh orange is found in any of the four directions:
+   - Mark it rotten.
+   - Decrease the fresh-orange count.
+   - Add its coordinates to the queue.
+7. Increase the minutes after processing a level that spreads rot.
+8. Return the minutes if all fresh oranges become rotten; otherwise, return `-1`.
+
+## 4. Important Observation
+
+**Why add all rotten oranges to the queue initially?**
+
+All initially rotten oranges spread rot simultaneously. Therefore, we use multi-source BFS instead of running BFS separately from each rotten orange.
+
+**Why use `int size = queue.size()`?**
+
+It ensures that we process only the oranges belonging to the current BFS level. Newly rotten oranges are processed in the next level.
+
+Each BFS level represents one minute of spreading.
+
+## 5. Directions
+
+```java
+int[] dr = {-1, 1, 0, 0};
+int[] dc = {0, 0, -1, 1};
+```
+
+These represent up, down, left, and right.
+
+## 6. Edge Cases
+- No fresh oranges initially → Return `0`.
+- All fresh oranges can rot → Return the minimum minutes required.
+- Some fresh oranges cannot rot → Return `-1`.
+
+## 7. Complexity
+Let `m` be the number of rows and `n` be the number of columns.
+
+- **Time Complexity:** `O(m × n)`
+- **Auxiliary Space Complexity:** `O(m × n)` in the worst case due to the queue.
+
+## 8. Common Mistakes
+- Adding only one rotten orange to the queue instead of all initially rotten oranges.
+- Processing newly rotten oranges in the same BFS level.
+- Forgetting to mark an orange rotten when adding it to the queue.
+- Increasing the minutes incorrectly.
+- Forgetting to check whether any fresh oranges remain.
+
+## 9. Key Takeaway
+
+**Number of Islands:** One BFS traversal counts one connected island.
+**Rotting Oranges:** Multi-source BFS processes levels to calculate the minimum time required for all reachable fresh oranges to rot.
+Number of Islands: One BFS traversal = one island.
+Rotting Oranges: One BFS level = one minute.
+Pattern: Multi-source BFS.
+Initialization: Add all rotten oranges to the queue initially.
+**Key observation**: All rotten oranges spread rot simultaneously.
+Time calculation: Process the queue level by level; each level represents one minute of spread.
+Common mistake: Processing each rotten orange separately instead of processing them together.
+Special cases: No fresh oranges initially means 0; unreachable fresh oranges mean -1.
